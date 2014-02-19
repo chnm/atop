@@ -11,6 +11,7 @@ This tool is basically a wrapper script around the 'links' command that pulls in
 
 *Options*
 
+````
 a = sort all threads by time
 c = sort by CPU, no GCRK_
 i = list IPs connected to Apache (uses Apache Server Status)
@@ -22,3 +23,4 @@ r = raw apache status output (good with limit of at least 50)
 s = search for a term, returns raw Apache Server Status results
 w = sort by inactive workers
 q = quit
+````
