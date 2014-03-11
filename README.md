@@ -2,7 +2,8 @@
 
 ## Info
 
-This tool is basically a wrapper script around the "links" command that pulls info from Apache's default system-status functionality and displays the results on the command line, similar to the "top" command.
+This tool is basically a BASH wrapper script around the "links" command that pulls info from the Apache default mod_status functionality and displays the results on the command line, similar to the "top" command.
+
 
 ## Requirements
 
@@ -10,9 +11,27 @@ This tool is basically a wrapper script around the "links" command that pulls in
 * Apache with mod_status module enabled and functioning, ExtendedStatus directive in httpd.conf active
 * links program installed
 * netstat program installed
+* Apache status page available at http://localhost/server-status
 
 
-## Options
+## Usage
+
+Run the script on the command line:
+
+````
+./atop
+````
+
+You can also pass the script a number to limit the lines of results returned (good for viewing on small screens). The default is 300 lines.
+
+````
+./atop 50
+````
+
+This would limit the results to 50 lines.
+
+
+## Command Options
 
 ````
 a = sort all threads by time
@@ -28,7 +47,8 @@ w = sort by inactive workers
 q = quit
 ````
 
-## Other options
+
+## Similar Programs
 
 Two other great options exist, written in python or perl.
 
