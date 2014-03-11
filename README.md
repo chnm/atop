@@ -1,15 +1,18 @@
 # Atop (Apache Top)
 
-*Requirements*
+## Info
 
-This tool is basically a wrapper script around the 'links' command that pulls info from Apache's default system-status functionality.
+This tool is basically a wrapper script around the "links" command that pulls info from Apache's default system-status functionality and displays the results on the command line, similar to the "top" command.
 
-* Apache with system-status module enable and functioning
-* links
-* netstat
+## Requirements
 
 
-*Options*
+* Apache with mod_status module enabled and functioning, ExtendedStatus directive in httpd.conf active
+* links program installed
+* netstat program installed
+
+
+## Options
 
 ````
 a = sort all threads by time
@@ -24,3 +27,10 @@ s = search for a term, returns raw Apache Server Status results
 w = sort by inactive workers
 q = quit
 ````
+
+## Other options
+
+Two other great options exist, written in python or perl.
+
+* https://github.com/fr3nd/apache-top
+* https://github.com/JeremyJones/Apachetop
