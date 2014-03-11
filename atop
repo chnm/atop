@@ -58,7 +58,7 @@ do
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
                 #service httpd fullstatus | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}'
                 show_key
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
 
@@ -71,7 +71,7 @@ do
                 tput clear
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[GCRK.]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 show_key
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
 
@@ -96,7 +96,7 @@ do
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "129.174" | grep -v "server-status" | awk '{print $4, $11}' | grep -v "\?" | grep -v "^\." | awk '{print $2}' | sort -n | uniq -c | sort -n
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
 
         ;;
@@ -114,7 +114,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | grep "K" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
 
@@ -129,7 +129,7 @@ alive by apache via the KeepAliveTimeout directive"
                 netstat -tn | grep ":80" | awk '{print $5}' | grep -v -e "127.0.0" -e "129.174" | cut -d: -f1 | sort | uniq -c | sort -n
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
 
@@ -140,7 +140,7 @@ alive by apache via the KeepAliveTimeout directive"
                 tput clear
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[_KGSDIRCWL]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 show_key
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
 
@@ -154,7 +154,7 @@ alive by apache via the KeepAliveTimeout directive"
                 #service httpd fullstatus | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}'
                 echo
                 show_key
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
 
@@ -167,7 +167,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump http://localhost/server-status | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
         
@@ -185,7 +185,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump http://localhost/server-status | grep $word || true
                 echo
                 show_key
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
         
@@ -200,7 +200,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[WGCRK_]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
         
@@ -220,13 +220,14 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[.]/ {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
                 echo
                 show_key
-                read -n 1 -t 1 looper || true
+                read -s -n 1 -t 1 looper || true
             done
         ;;
     esac
 
-    tput clear
+    #tput clear
 
+    echo
     echo "a = sort all threads by time
 c = sort by CPU, no GCRK_
 i = list IPs connected to Apache (uses Apache Server Status)
@@ -240,6 +241,6 @@ w = sort by inactive workers
 q = quit
 "
 
-    read -n 1 -p "Pick a sort option: " choose
+    read -s -n 1 -p "Pick a sort option: " choose
 
 done
