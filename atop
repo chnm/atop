@@ -65,7 +65,7 @@ do
 
 
 
-        c)  # Sort by CPU, no IDL_.
+        c)  # Sort by CPU, no GCRK.
             while [[ -z "$looper" ]]
             do
                 tput clear
@@ -229,7 +229,7 @@ alive by apache via the KeepAliveTimeout directive"
 
     echo
     echo "a = sort all threads by time
-c = sort by CPU, no GCRK_
+c = sort by CPU, no 'GCRK.'
 i = list IPs connected to Apache (uses Apache Server Status)
 k = sort by K (Keep alives)
 n = list IPs connected to server (uses netstat)
