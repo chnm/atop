@@ -44,7 +44,6 @@ function show_key
 choose=''
 
 
-
 # to limit the types of connections returned, put the follwing between the print and printf commands. $4 !~ /[GCRK_.]/ 
 while :
 do
@@ -225,20 +224,23 @@ alive by apache via the KeepAliveTimeout directive"
         ;;
     esac
 
-    #tput clear
+
 
     echo
-    echo "a = sort all threads by time
-c = sort by CPU, no 'GCRK.'
-i = list IPs connected to Apache (uses Apache Server Status)
-k = sort by K (Keep alives)
-n = list IPs connected to server (uses netstat)
-o = sort open connections by CPU
-p = sort only POST threads by time
-r = raw apache status output (good with limit of at least 50)
-s = search for a term, returns raw Apache Server Status results
-w = sort by inactive workers
-q = quit
+    echo "=================================================="
+    echo "                 Sort Options                     "
+    echo "=================================================="
+    echo "    a = sort all threads by time
+    c = sort by CPU, no 'GCRK.'
+    i = list IPs connected to Apache (uses Apache Server Status)
+    k = sort by K (Keep alives)
+    n = list IPs connected to server (uses netstat)
+    o = sort open connections by CPU
+    p = sort only POST threads by time
+    r = raw apache status output (good with limit of at least 50)
+    s = search for a term, returns raw Apache Server Status results
+    w = sort by inactive workers
+    q = quit
 "
 
     read -s -n 1 -p "Pick a sort option: " choose
