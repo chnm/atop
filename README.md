@@ -36,9 +36,10 @@ This would limit the results to 50 lines.
 ````
 a = sort all threads by time
 c = sort by CPU, no GCRK_
-i = list IPs connected to Apache (uses Apache Server Status)
+i = list IPs connected to port 80 (uses Apache Server Status)
 k = sort by K (Keep alives)
-n = list IPs connected to server (uses netstat)
+l = list IPs connected to all ports (uses netstat)
+n = list IPs connected to port 80 (uses netstat)
 o = sort open connections by CPU
 p = sort only POST threads by time
 r = raw apache status output (good with limit of at least 50)

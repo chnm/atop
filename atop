@@ -90,7 +90,7 @@ do
             do
                 iplist=''
                 tput clear
-                echo "Occurance of IP connections to Apache (using Apache Server Status)"
+                echo "List of IPs connected to port 80 (using Apache Server Status)"
                 echo
                 links -dump http://localhost/server-status | grep ^[0-9] | grep -v "129.174" | grep -v "server-status" | awk '{print $4, $11}' | grep -v "\?" | grep -v "^\." | awk '{print $2}' | sort -n | uniq -c | sort -n
                 echo
@@ -119,11 +119,26 @@ alive by apache via the KeepAliveTimeout directive"
 
 
 
+        l) # Netstat list of IPs
+            while [[ -z "$looper" ]]
+            do
+                tput clear
+                echo "List of IPs connected to all ports  (using netstat)"
+                echo
+                netstat -tn | awk '{print $5}' | grep -v -e "127.0.0" -e "192.168" -e "129.174" -e "Address" -e "servers" | cut -d: -f1 | sort | uniq -c | sort -n
+                echo
+                echo -e "$green Type any key to switch sort options. $reset"
+                read -s -n 1 -t 1 looper || true
+            done
+        ;;
+
+
+
         n) # Netstat list of IPs
             while [[ -z "$looper" ]]
             do
                 tput clear
-                echo "List of IPs connected to server (using netstat)"
+                echo "List of IPs connected to port 80 (using netstat)"
                 echo
                 netstat -tn | grep ":80" | awk '{print $5}' | grep -v -e "127.0.0" -e "129.174" | cut -d: -f1 | sort | uniq -c | sort -n
                 echo
@@ -131,6 +146,7 @@ alive by apache via the KeepAliveTimeout directive"
                 read -s -n 1 -t 1 looper || true
             done
         ;;
+
 
 
         o)  # sort by open processes
@@ -232,9 +248,10 @@ alive by apache via the KeepAliveTimeout directive"
     echo "=================================================="
     echo "    a = sort all threads by time
     c = sort by CPU, no 'GCRK.'
-    i = list IPs connected to Apache (uses Apache Server Status)
+    i = list IPs connected to port 80 (uses Apache Server Status)
     k = sort by K (Keep alives)
-    n = list IPs connected to server (uses netstat)
+    n = list IPs connected to port 80 (uses netstat)
+    l = list IPs connected to all ports (using netstat)
     o = sort open connections by CPU
     p = sort only POST threads by time
     r = raw apache status output (good with limit of at least 50)
