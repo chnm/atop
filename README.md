@@ -30,6 +30,8 @@ You can also pass the script a number to limit the lines of results returned (go
 
 This would limit the results to 50 lines.
 
+See here for a blog post on using atop: <a href="http://mossiso.com/2014/04/02/atop-apache-top-for-keeping-tabs-on-the-web-servers.html">http://mossiso.com/2014/04/02/atop-apache-top-for-keeping-tabs-on-the-web-servers.html</a>
+
 
 ## Command Options
 
