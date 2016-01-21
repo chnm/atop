@@ -25,10 +25,16 @@ Run the script on the command line:
 You can also pass the script a number to limit the lines of results returned (good for viewing on small screens). The default is 300 lines.
 
 ````
-./atop 50
+./atop -n 50
 ````
 
 This would limit the results to 50 lines.
+
+You can specify a different server-status location like so:
+
+```
+./atop -u http://127.0.0.1:8080/server-status
+```
 
 See here for a blog post on using atop: <a href="http://mossiso.com/2014/04/02/atop-apache-top-for-keeping-tabs-on-the-web-servers.html">http://mossiso.com/2014/04/02/atop-apache-top-for-keeping-tabs-on-the-web-servers.html</a>
 

@@ -1,13 +1,16 @@
 #!/bin/bash
+#
 # atop
+# This tool is basically a BASH wrapper script around the "links" command that
+# pulls info from the Apache default mod_status functionality and displays the
+# results on the command line, similar to the "top" command.
 #
-# Forked from chnm's atop.
-# https://github.com/chnm/atop
+# Author: Ammon Shepherd <https://github.com/mossiso>
 #
-# Updated to support arguments and
-# non default status URL.
-# <ricky@rickyhewitt.com>
-#
+# Contrib:
+#   - Roberto Sanchez <https://github.com/rsanc77>
+#   - Ricky Hewitt <https://github.com/rickyhewitt>
+# 
 
 set -e
 set -u
