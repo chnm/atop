@@ -10,7 +10,7 @@
 # Contrib:
 #   - Roberto Sanchez <https://github.com/rsanc77>
 #   - Ricky Hewitt <https://github.com/rickyhewitt>
-# 
+
 
 set -e
 set -u
@@ -43,9 +43,9 @@ while [[ $@ > 0 ]]; do
       ;;
 
       "-h" | "--help")
-        echo -e "-h help\n"
-        echo -e "-n\n  Limit number of lines returned (default: 300)\n"
-        echo -e "-u\n  Specify apache status URL (default: http://127.0.0.1/server-status)\n"
+        echo -e "-h --help help\n"
+        echo -e "-n --number\n  Limit number of lines returned (default: 300)\n"
+        echo -e "-u --url\n  Specify apache status URL (default: http://127.0.0.1/server-status)\n"
         exit
       ;;
     esac
