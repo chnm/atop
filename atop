@@ -26,7 +26,7 @@ reset=$(tput sgr0)
 
 # Default variables
 limit='-n 300'
-STATUS_URL="http://localhost/server-status"
+STATUS_URL="http://127.0.0.1/server-status"
 
 # Parse arguments
 while [[ $@ > 0 ]]; do
@@ -42,7 +42,7 @@ while [[ $@ > 0 ]]; do
       "-h" | "--help")
         echo -e "-h help\n"
         echo -e "-n\n  Limit number of lines returned (default: 300)\n"
-        echo -e "-u\n  Specify apache status URL (default: http://localhost/server-status)\n"
+        echo -e "-u\n  Specify apache status URL (default: http://127.0.0.1/server-status)\n"
         exit
       ;;
     esac
@@ -78,7 +78,7 @@ do
             while [[ -z "$looper" ]]
             do
                 tput clear
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
                 #service httpd fullstatus | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}'
                 show_key
                 read -s -n 1 -t 1 looper || true
@@ -92,7 +92,7 @@ do
             while [[ -z "$looper" ]]
             do
                 tput clear
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[GCRK.]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[GCRK.]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 show_key
                 read -s -n 1 -t 1 looper || true
             done
@@ -102,7 +102,7 @@ do
 
         d)  # sort by Domain
             echo "# sort by Domain"
-            #links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $13 !~ /OPTIONS/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 7 -n"}'
+            #links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $13 !~ /OPTIONS/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 7 -n"}'
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
         ;;
@@ -114,9 +114,9 @@ do
             do
                 iplist=''
                 tput clear
-                echo "List of IPs connected to port 80 (using Apache Server Status)"
+                echo "List of IPs connected (using Apache Server Status)"
                 echo
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "129.174" | grep -v "server-status" | awk '{print $4, $11}' | grep -v "\?" | grep -v "^\." | awk '{print $2}' | sort -n | uniq -c | sort -n
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "129.174" | grep -v "server-status" | awk '{print $4, $11}' | grep -v "\?" | grep -v "^\." | awk '{print $2}' | sort -n | uniq -c | sort -n
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
                 read -s -n 1 -t 1 looper || true
@@ -134,7 +134,7 @@ might be keeping old connections alive too long.  You may want
 to look into reducing the amount of time connections are kept
 alive by apache via the KeepAliveTimeout directive"
                 echo
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | grep "K" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | grep "K" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
                 read -s -n 1 -t 1 looper || true
@@ -177,7 +177,7 @@ alive by apache via the KeepAliveTimeout directive"
             while [[ -z "$looper" ]]
             do
                 tput clear
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[_KGSDIRCWL]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[_KGSDIRCWL]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 show_key
                 read -s -n 1 -t 1 looper || true
             done
@@ -189,7 +189,7 @@ alive by apache via the KeepAliveTimeout directive"
             while [[ -z "$looper" ]]
             do
                 tput clear
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[.]/ {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[.]/ {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
                 #service httpd fullstatus | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}'
                 echo
                 show_key
@@ -203,7 +203,7 @@ alive by apache via the KeepAliveTimeout directive"
             while [[ -z "$looper" ]]
             do
                 tput clear
-                links -dump http://localhost/server-status | head $limit
+                links -dump $STATUS_URL | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
                 read -s -n 1 -t 1 looper || true
@@ -221,7 +221,7 @@ alive by apache via the KeepAliveTimeout directive"
                 fi
                 echo -e "Returning results with $magenta $word $reset"
                 echo
-                links -dump http://localhost/server-status | grep $word || true
+                links -dump $STATUS_URL | grep $word || true
                 echo
                 show_key
                 read -s -n 1 -t 1 looper || true
@@ -236,7 +236,7 @@ alive by apache via the KeepAliveTimeout directive"
             while [[ -z "$looper" ]]
             do
                 tput clear
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[WGCRK_]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[WGCRK_]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
                 read -s -n 1 -t 1 looper || true
@@ -256,7 +256,7 @@ alive by apache via the KeepAliveTimeout directive"
             while [[ -z "$looper" ]]
             do
                 tput clear
-                links -dump http://localhost/server-status | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[.]/ {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
+                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[.]/ {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
                 echo
                 show_key
                 read -s -n 1 -t 1 looper || true
@@ -272,7 +272,7 @@ alive by apache via the KeepAliveTimeout directive"
     echo "=================================================="
     echo "    a = sort all threads by time
     c = sort by CPU, no 'GCRK.'
-    i = list IPs connected to port 80 (uses Apache Server Status)
+    i = list IPs connected (uses Apache Server Status)
     k = sort by K (Keep alives)
     l = list IPs connected to all ports (using netstat)
     n = list IPs connected to port 80 (uses netstat)
