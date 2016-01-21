@@ -1,4 +1,13 @@
 #!/bin/bash
+# atop
+#
+# Forked from chnm's atop.
+# https://github.com/chnm/atop
+#
+# Updated to support arguments and
+# non default status URL.
+# <ricky@rickyhewitt.com>
+#
 
 set -e
 set -u
@@ -15,23 +24,38 @@ cyan='\E[36;40m'
 white='\E[1;37;40m'
 reset=$(tput sgr0)
 
+# Default variables
+limit='-n 300'
+STATUS_URL="http://localhost/server-status"
 
+# Parse arguments
+while [[ $@ > 0 ]]; do
+    case "$1" in
+      "-n" | "--number")
+          limit="-n $2"
+      ;;
 
-if [[ -n "${1-}" ]]; then
+      "-u" | "--url")
+          STATUS_URL="$2"
+      ;;
 
-    limit="-n $1"
-else
-    limit='-n 300'
-fi
-
+      "-h" | "--help")
+        echo -e "-h help\n"
+        echo -e "-n\n  Limit number of lines returned (default: 300)\n"
+        echo -e "-u\n  Specify apache status URL (default: http://localhost/server-status)\n"
+        exit
+      ;;
+    esac
+    shift
+done
 
 function show_key
 {
-            echo 
-            echo -e " $yellow State Column Key: 
-            _ Waiting for Connection    S Starting up    R Reading Request    W Sending Reply 
-            K Keepalive (read)          D DNS Lookup     C Closing connection L Logging 
-            G Gracefully finishing      I Idle cleanup of worker   
+            echo
+            echo -e " $yellow State Column Key:
+            _ Waiting for Connection    S Starting up    R Reading Request    W Sending Reply
+            K Keepalive (read)          D DNS Lookup     C Closing connection L Logging
+            G Gracefully finishing      I Idle cleanup of worker
             . Open slot with no current process $reset "
 
             echo
@@ -44,7 +68,7 @@ function show_key
 choose=''
 
 
-# to limit the types of connections returned, put the follwing between the print and printf commands. $4 !~ /[GCRK_.]/ 
+# to limit the types of connections returned, put the follwing between the print and printf commands. $4 !~ /[GCRK_.]/
 while :
 do
 
@@ -99,8 +123,8 @@ do
             done
 
         ;;
-        
-        
+
+
         k)  # sort by KeepAlive, too many means too many old connections kept alive too long
             while [[ -z "$looper" ]]
             do
@@ -185,7 +209,7 @@ alive by apache via the KeepAliveTimeout directive"
                 read -s -n 1 -t 1 looper || true
             done
         ;;
-        
+
 
         s)  # search
             word=''
@@ -203,7 +227,7 @@ alive by apache via the KeepAliveTimeout directive"
                 read -s -n 1 -t 1 looper || true
             done
         ;;
-        
+
 
 
 
@@ -218,7 +242,7 @@ alive by apache via the KeepAliveTimeout directive"
                 read -s -n 1 -t 1 looper || true
             done
         ;;
-        
+
 
 
         q)  # quit
