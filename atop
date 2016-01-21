@@ -253,14 +253,13 @@ alive by apache via the KeepAliveTimeout directive"
 
 
         *)  # default
-            while [[ -z "$looper" ]]
-            do
-                tput clear
-                links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[.]/ {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
-                echo
-                show_key
-                read -s -n 1 -t 1 looper || true
-            done
+          while [[ -z "$looper" ]]
+          do
+              tput clear
+              links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[GCRK.]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
+              show_key
+              read -s -n 1 -t 1 looper || true
+          done
         ;;
     esac
 
