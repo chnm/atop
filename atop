@@ -28,12 +28,17 @@ white='\E[1;37;49m'
 reset=$(tput sgr0)
 
 # Default variables
+delay='2'
 limit='-n 300'
 STATUS_URL="http://127.0.0.1/server-status"
 
 # Parse arguments
 while [[ $@ > 0 ]]; do
     case "$1" in
+      "-d" | "--delay")
+          delay="$2"
+      ;;
+
       "-n" | "--number")
           limit="-n $2"
       ;;
@@ -44,6 +49,7 @@ while [[ $@ > 0 ]]; do
 
       "-h" | "--help")
         echo -e "-h --help help\n"
+        echo -e "-d --delay\n  Set the delay between updates, in seconds (default: 2)\n"
         echo -e "-n --number\n  Limit number of lines returned (default: 300)\n"
         echo -e "-u --url\n  Specify apache status URL (default: http://127.0.0.1/server-status)\n"
         exit
@@ -84,7 +90,7 @@ do
                 links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}' | head $limit
                 #service httpd fullstatus | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}'
                 show_key
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -97,7 +103,7 @@ do
                 tput clear
                 links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[GCRK.]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 show_key
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -122,7 +128,7 @@ do
                 links -dump $STATUS_URL | grep ^[0-9] | grep -v "129.174" | grep -v "server-status" | awk '{print $4, $11}' | grep -v "\?" | grep -v "^\." | awk '{print $2}' | sort -n | uniq -c | sort -n
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
 
         ;;
@@ -140,7 +146,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | grep "K" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -155,7 +161,7 @@ alive by apache via the KeepAliveTimeout directive"
                 netstat -tn | awk '{print $5}' | grep -v -e "127.0.0" -e "192.168" -e "129.174" -e "Address" -e "servers" | cut -d: -f1 | sort | uniq -c | sort -n
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -170,7 +176,7 @@ alive by apache via the KeepAliveTimeout directive"
                 netstat -tn | grep ":443" | awk '{print $5}' | grep -v -e "127.0.0" -e "129.174" | cut -d: -f1 | sort | uniq -c | sort -n
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -185,7 +191,7 @@ alive by apache via the KeepAliveTimeout directive"
                 netstat -tn | grep ":80" | awk '{print $5}' | grep -v -e "127.0.0" -e "129.174" | cut -d: -f1 | sort | uniq -c | sort -n
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -197,7 +203,7 @@ alive by apache via the KeepAliveTimeout directive"
                 tput clear
                 links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[_KGSDIRCWL]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 show_key
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -211,7 +217,7 @@ alive by apache via the KeepAliveTimeout directive"
                 #service httpd fullstatus | grep ^[0-9] | grep -v "server-status" | grep "POST" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} {printf "%-6s %6s %6s %-4s %-10s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -n"}'
                 echo
                 show_key
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -224,7 +230,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump $STATUS_URL | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -242,7 +248,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump $STATUS_URL | grep $word || true
                 echo
                 show_key
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -257,7 +263,7 @@ alive by apache via the KeepAliveTimeout directive"
                 links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[WGCRK_]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
                 echo
                 echo -e "$green Type any key to switch sort options. $reset"
-                read -s -n 1 -t 1 looper || true
+                read -s -n 1 -t $delay looper || true
             done
         ;;
 
@@ -276,7 +282,7 @@ alive by apache via the KeepAliveTimeout directive"
               tput clear
               links -dump $STATUS_URL | grep ^[0-9] | grep -v "server-status" | awk 'BEGIN {print "Seconds  PID    CPU State TYPE         IP                  Domain/URL\n--"} $4 !~ /[GCRK.]/ {printf "%-6s %6s %6s %-4s %-8s %-20s %2s %-2s\n",  $6, $2, $5,"  " $4, $13, $11, $12, $14|"sort -k 3 -n"}' | head $limit
               show_key
-              read -s -n 1 -t 1 looper || true
+              read -s -n 1 -t $delay looper || true
           done
         ;;
     esac
