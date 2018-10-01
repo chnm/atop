@@ -161,6 +161,21 @@ alive by apache via the KeepAliveTimeout directive"
 
 
 
+        m) # Netstat list of IPs
+            while [[ -z "$looper" ]]
+            do
+                tput clear
+                echo "List of IPs connected to port 443 (using netstat)"
+                echo
+                netstat -tn | grep ":443" | awk '{print $5}' | grep -v -e "127.0.0" -e "129.174" | cut -d: -f1 | sort | uniq -c | sort -n
+                echo
+                echo -e "$green Type any key to switch sort options. $reset"
+                read -s -n 1 -t 1 looper || true
+            done
+        ;;
+
+
+
         n) # Netstat list of IPs
             while [[ -z "$looper" ]]
             do
@@ -277,6 +292,7 @@ alive by apache via the KeepAliveTimeout directive"
     i = list IPs connected (uses Apache Server Status)
     k = sort by K (Keep alives)
     l = list IPs connected to all ports (using netstat)
+    m = list IPs connected to port 443 (uses netstat)
     n = list IPs connected to port 80 (uses netstat)
     o = sort open connections by CPU
     p = sort only POST threads by time
