@@ -47,6 +47,7 @@ c = sort by CPU, no GCRK_
 i = list IPs connected to port 80 (uses Apache Server Status)
 k = sort by K (Keep alives)
 l = list IPs connected to all ports (uses netstat)
+m = list IPs connected to port 443 (uses netstat)
 n = list IPs connected to port 80 (uses netstat)
 o = sort open connections by CPU
 p = sort only POST threads by time
@@ -56,6 +57,13 @@ w = sort by inactive workers
 q = quit
 ````
 
+## Optional arguments
+```
+-h, --help            show this help message and exit
+-n, --number          Limit number of lines returned (default 300)
+-d, --delay           Delay between updates (seconds) (default 2)
+-u, --url             Specify apache status URL (default: http://127.0.0.1/server-status)
+```
 
 ## Similar Programs
 
