@@ -50,6 +50,8 @@ w = sort by inactive workers
 q = quit
 ````
 
+## Archived
+RRCHNM archived this repository in March 2022. Prior to archiving, last code activity was July 2014. If you need more information or to unarchive this repository, please contact us at webmaster at chnm.gmu.edu
 
 ## Similar Programs
 
